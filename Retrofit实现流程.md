@@ -1,0 +1,7 @@
+Retrofit的实现流程
+
+首先构造retrofit，几个核心的参数呢，主要就是baseurl,callFactory(默认okhttpclient),converterFactories,calladapterFactories,callbackExecutor。
+然后通过create方法拿到接口的实现类，这里利用Java的Proxy类完成动态代理的相关代理
+在invoke方法内部，拿到我们所声明的注解以及实参等，构造ServiceMethod，ServiceMethod中解析了大量的信息，
+最终可以通过toRequest构造出okhttp3.Request对象。有了okhttp3.Request对象就可以很自然的构建出okhttp3.call，最后calladapter对Call进行装饰返回。
+拿到Call就可以执行enqueue或者execute方法了。
